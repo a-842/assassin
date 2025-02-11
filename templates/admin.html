@@ -34,6 +34,14 @@
         {% endfor %}
     </table>
 
+    <form method="POST" action="{{ url_for('start_game') }}">
+    {% for user in users %}
+        <input type="checkbox" name="selected_players" value="{{ user.id }}">{{ user.username }}<br>
+    {% endfor %}
+    <button type="submit">Start Game</button>
+    </form>
+    
+
     <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
     <a href="{{ url_for('change_password') }}">Change Password</a>
 
