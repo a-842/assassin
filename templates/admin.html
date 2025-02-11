@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Admin Panel</title>
-</head>
-<body>
+
+{% block title %}Admin{% endblock %}
+
+{% block content %}
     <h1>Admin Panel</h1>
 
     <h2>Create New Player</h2>
@@ -37,5 +35,5 @@
 
     <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
     <a href="{{ url_for('change_password') }}">Change Password</a>
-</body>
-</html>
+
+{% endblock %}
