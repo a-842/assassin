@@ -5,6 +5,7 @@
 </head>
 <body>
     <h1>Admin Panel</h1>
+
     <h2>Create New Player</h2>
     <form method="POST">
         <input type="text" name="username" placeholder="Username" required>
@@ -13,11 +14,28 @@
     </form>
 
     <h2>Current Players</h2>
-    <ul>
+    <table border="1">
+        <tr>
+            <th>Username</th>
+            <th>Actions</th>
+        </tr>
         {% for user in users %}
-            <li>{{ user.username }}</li>
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('delete_user', user_id=user.id) }}" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+                <form method="POST" action="{{ url_for('reset_password', user_id=user.id) }}" style="display:inline;">
+                    <input type="password" name="new_password" placeholder="New Password" required>
+                    <button type="submit">Reset Password</button>
+                </form>
+            </td>
+        </tr>
         {% endfor %}
-    </ul>
+    </table>
+
     <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    <a href="{{ url_for('change_password') }}">Change Password</a>
 </body>
 </html>
