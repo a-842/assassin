@@ -22,26 +22,6 @@ class User(UserMixin, db.Model):
     is_admin = db.Column(db.Boolean, default=False)
 
 
-# Game model
-class Game(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    is_ongoing = db.Column(db.Boolean, default=False)
-    leaderboard = db.relationship('Leaderboard', backref='game', lazy=True)
-
-class Leaderboard(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    game_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
-    kills = db.Column(db.Integer, default=0)
-    deaths = db.Column(db.Integer, default=0)
-    score = db.Column(db.Integer, default=0)
-    items = db.Column(db.String(500), default="")
-    target_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)  # Target (one-to-many relationship)
-
-    user = db.relationship('User', backref='leaderboards')
-    target = db.relationship('User', foreign_keys=[target_id])
-
-
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -136,32 +116,6 @@ def reset_password(user_id):
 
     return redirect(url_for('admin'))
 
-@app.route('/admin/start_game', methods=['POST'])
-@login_required
-def start_game():
-    if not current_user.is_admin:
-        return "Access Denied", 403
-
-    selected_players = request.form.getlist('selected_players')  # List of user IDs selected for the game
-
-    # Create a new game
-    game = Game(is_ongoing=True)
-    db.session.add(game)
-    db.session.commit()
-
-    # Assign targets in a ring and create leaderboard entries
-    players = User.query.filter(User.id.in_(selected_players)).all()
-    num_players = len(players)
-    for i, player in enumerate(players):
-        target = players[(i + 1) % num_players]  # This will form a ring: A->B, B->C, etc.
-        leaderboard_entry = Leaderboard(user_id=player.id, game_id=game.id, target_id=target.id)
-        db.session.add(leaderboard_entry)
-
-    db.session.commit()
-    flash("Game started successfully!", "success")
-    return redirect(url_for('admin'))
-
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -190,41 +144,6 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('home'))
-
-@app.route('/report_kill', methods=['POST'])
-@login_required
-def report_kill():
-    victim_id = request.form['victim_id']
-    killer_id = current_user.id  # Assume the current user is the killer
-    victim = User.query.get(victim_id)
-
-    # Update the leaderboard
-    victim_leaderboard = Leaderboard.query.filter_by(user_id=victim.id).first()
-    killer_leaderboard = Leaderboard.query.filter_by(user_id=killer_id).first()
-
-    # Transfer the victim's target to the killer
-    killer_leaderboard.target_id = victim_leaderboard.target_id
-    killer_leaderboard.score += 1  # Increase the score
-
-    # Increment deaths for the victim
-    victim_leaderboard.deaths += 1
-    db.session.commit()
-
-    flash("Kill reported successfully!", "success")
-    return redirect(url_for('dashboard'))
-
-@app.route('/leaderboard')
-@login_required
-def leaderboard():
-    if not current_user.is_admin:
-        return "Access Denied", 403
-
-    ongoing_game = Game.query.filter_by(is_ongoing=True).first()
-    if ongoing_game:
-        leaderboard_entries = Leaderboard.query.filter_by(game_id=ongoing_game.id).all()
-        return render_template('leaderboard.html', leaderboard_entries=leaderboard_entries)
-    else:
-        return "No ongoing game"
 
 
 
