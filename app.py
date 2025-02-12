@@ -20,6 +20,10 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(150), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
+    kills = db.Column(db.Integer, default=0)
+    deaths = db.Column(db.Integer, default=0)
+    score = db.Column(db.Integer, default=0)
+
 
 
 @login_manager.user_loader
