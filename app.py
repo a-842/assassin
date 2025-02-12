@@ -20,9 +20,24 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(150), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
     kills = db.Column(db.Integer, default=0)
     deaths = db.Column(db.Integer, default=0)
     score = db.Column(db.Integer, default=0)
+
+    targets = db.relationship('Target', back_populates='hunter', foreign_keys='Target.hunter_id')
+    hunters = db.relationship('Target', back_populates='target', foreign_keys='Target.target_id')
+
+class Target(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    hunter_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    target_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    hunter = db.relationship('User', back_populates='targets', foreign_keys=[hunter_id])
+    target = db.relationship('User', back_populates='hunters', foreign_keys=[target_id])
+
+    __table_args__ = (db.UniqueConstraint('hunter_id', 'target_id'),)
 
 
 
