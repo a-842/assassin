@@ -14,7 +14,8 @@
             <a href="{{ url_for('logout') }}">Logout</a>
         {% endif %}
 
-    {% block content %}{% endblock %}
-
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
 </body>
 </html>
