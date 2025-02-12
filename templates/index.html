@@ -4,6 +4,29 @@
 
 {% block content %}
     <h1>Welcome to Assassin Game</h1>
-    <a href="{{ url_for('login') }}"><button>Login</button></a>
+    <p>This website hosts an interactive game of Assassin, a game commonly played at universities, summer camps, and social groups. It is designed to create a fun and strategic challenge where players must "eliminate" their targets while avoiding being eliminated themselves.</p>
+    <p>This implementation of Assassin is managed through a web-based system, allowing players to track their targets, report kills, and compete for the top spot on the leaderboard. While the game is private and requires an account to participate, anyone interested in running their own version can access the source code and set it up independently.</p>
+    <h2>Mechanics</h2>
+    <h3>Objective</h3>
+    <p>The goal of the game is to be the last remaining player by eliminating your assigned targets while avoiding elimination yourself.</p>
+    <h3>How the Game Works</h3>
+    <ol>
+        <li>Target Assignment: At the start of the game, all players are randomly assigned a target. Each player has exactly one target, forming a continuous cycle (e.g., Player A → Player B → Player C → Player A).</li>
+        <li>Eliminations: A player eliminates their target by performing a predefined "kill" action (this could be tagging them in person, using a specific phrase, or another agreed-upon method).</li>
+        <li>Reporting a Kill: When a player is eliminated, they must report their own death and specify who eliminated them.</li>
+        <li>Target Reassignment: Once a player is eliminated, their killer inherits their target, ensuring that every active player always has one target to pursue.</li>
+        <li>Leaderboard and Scoring: Each successful elimination earns the killer a point, while being eliminated results in a score reduction. The leaderboard updates in real-time to reflect player rankings.</li>
+    </ol>
+    <h3>Admin Controls</h3>
+    <ul>
+        <li>The game is managed by an admin who can start and end games, assign targets, reset passwords, and oversee player activity.</li>
+        <li>The admin interface allows for creating new user accounts, removing inactive players, and monitoring eliminations</li>
+    </ul>
+    <h3>Technical Details</h3>
+    <p>This version of Assassin is a Flask-based web application, using SQLite for database management and Flask-Login for authentication. The game logic is implemented in Python, ensuring that targets are fairly assigned and the game state is properly maintained.</p>
+    <p>The project is open-source and hosted on GitHub, meaning anyone can clone, modify, and deploy their own version. If you're interested in setting up your own game, the source code and instructions are available online.</p>
+    <h2>Interested in running your own game?</h2>
+    <p>You can find the source code on GitHub: <a href="https://github.com/a-842/assassin">github.com/a-842/assassin</a></p>
+    <p>If you have any questions feel free to reach out by email: <a href="mailto:ainsworthcoultart@gmail.com">ainsworthcoultart@gmail.com</a></p>
 
 {% endblock %}
