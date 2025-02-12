@@ -48,11 +48,9 @@
                     <button type="submit">Reset Password</button>
                 </form>
             </td>
-            <td>
-                <span class="spoiler" onclick="this.classList.remove('spoiler')">
-                    {% set target = user.targets[0].target.username if user.targets else "No Target" %}
-                    {{ target }}
-                </span>
+            <td class="spoiler" onclick="this.classList.remove('spoiler')">
+                {% set target = user.targets[0].target.username if user.targets else "No Target" %}
+                {{ target }}
             </td>
         </tr>
         {% endfor %}
