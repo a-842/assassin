@@ -55,7 +55,12 @@ def home():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', username=current_user.username)
+     user_target = None
+    if not current_user.is_admin:
+        target = Target.query.filter_by(hunter_id=current_user.id).first()
+        if target:
+            user_target = target.target.username  # Get the target's username
+    return render_template('dashboard.html', username=current_user.username, target=user_target)
 
 
 # Route for users to change their own password
