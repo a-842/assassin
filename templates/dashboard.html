@@ -11,7 +11,7 @@
         <p>You don't have a target.</p>
     {% endif %}
 
-    <a href="{{ url_for('leaderboard') }}" class="btn btn-primary">View Leaderboard</a>
+    <a href="{{ url_for('leaderboard') }}"><button>View Leaderboard</button></a>
 
 
     <form action="{{ url_for('report_death') }}" method="POST">
@@ -28,6 +28,6 @@
     </form>
 
 
-    <a href="{{ url_for('change_password') }}">Change Password</a>
-    <a href="{{ url_for('logout') }}">Logout</a>
+    <a href="{{ url_for('change_password') }}"><button>Change Password</button></a>
+    <a href="{{ url_for('logout') }}"><button>Logout</button></a>
 {% endblock %}
