@@ -2,8 +2,25 @@
 
 {% block title %}Admin{% endblock %}
 
+{% block head %}
+<style>
+        .spoiler {
+            background-color: black;
+            color: black;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: color 0.3s;
+        }
+
+        .spoiler:hover {
+            color: white;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
-    <h1>Admin Panel</h1>
+       <h1>Admin Panel</h1>
 
     <h2>Create New Player</h2>
     <form method="POST">
@@ -16,16 +33,12 @@
     <table border="1">
         <tr>
             <th>Username</th>
-            <th>Target</th>
             <th>Actions</th>
+            <th>Target</th>
         </tr>
         {% for user in users %}
         <tr>
             <td>{{ user.username }}</td>
-            <td>
-                {% set target = user.targets[0].target.username if user.targets else "No Target" %}
-                {{ target }}
-            </td>
             <td>
                 <form method="POST" action="{{ url_for('delete_user', user_id=user.id) }}" style="display:inline;">
                     <button type="submit">Delete</button>
@@ -34,6 +47,12 @@
                     <input type="password" name="new_password" placeholder="New Password" required>
                     <button type="submit">Reset Password</button>
                 </form>
+            </td>
+            <td>
+                <span class="spoiler" onclick="this.classList.remove('spoiler')">
+                    {% set target = user.targets[0].target.username if user.targets else "No Target" %}
+                    {{ target }}
+                </span>
             </td>
         </tr>
         {% endfor %}
@@ -45,5 +64,6 @@
 
     <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
     <a href="{{ url_for('change_password') }}">Change Password</a>
+
 
 {% endblock %}
