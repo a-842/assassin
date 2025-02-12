@@ -248,7 +248,9 @@ def report_death():
 
     # Update scores and remove the victim
     killer.kills += 1
+    killer.score += 1
     victim.deaths += 1
+    victim.score -= 1
 
     # Remove the victim from the game
     Target.query.filter_by(hunter_id=victim.id).delete()
