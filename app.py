@@ -63,7 +63,7 @@ def dashboard():
         target = Target.query.filter_by(hunter_id=current_user.id).first()
         if target:
             user_target = target.target.username  # Get the target's username
-    players = User.query.filter(User.id != current_user.id).all()
+    players = User.query.filter(User.id != current_user.id).filter_by(is_admin=False).all()
     return render_template('dashboard.html', username=current_user.username, target=user_target, players=players)
 
 
@@ -186,6 +186,12 @@ def make_game():
     # Get all non-admin users
     players = User.query.filter_by(is_admin=False).all()
     shuffle(players)
+
+    for player in players:
+        player.kills = 0
+        player.deaths = 0
+        player.score = 0
+
     # Assign targets in a circular manner (ring)
     for i in range(len(players)):
         hunter = players[i]
@@ -255,7 +261,7 @@ def report_death():
 @app.route('/leaderboard')
 @login_required
 def leaderboard():
-    players = User.query.order_by(User.score.desc()).all()  # Sort by score (highest first)
+    players = User.query.order_by(User.score.desc()).filter_by(is_admin=False).all()  # Sort by score (highest first)
     return render_template('leaderboard.html', players=players)
 
 
