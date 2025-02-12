@@ -4,6 +4,13 @@
 
 {% block content %}
     <h1>Welcome, {{ username }}</h1>
+
+    {% if target %}
+        <p>Your target is: {{ target }}</p>
+    {% else %}
+        <p>You don't have a target yet.</p>
+    {% endif %}
+
     <a href="{{ url_for('change_password') }}">Change Password</a>
     <a href="{{ url_for('logout') }}">Logout</a>
 {% endblock %}
