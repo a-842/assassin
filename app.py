@@ -55,7 +55,7 @@ def home():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-     user_target = None
+    user_target = None
     if not current_user.is_admin:
         target = Target.query.filter_by(hunter_id=current_user.id).first()
         if target:
