@@ -11,6 +11,20 @@
         <p>You don't have a target yet.</p>
     {% endif %}
 
+    <form action="{{ url_for('report_death') }}" method="POST">
+        <h2>Report Your Death</h2>
+        <label for="killer">Who killed you?</label>
+        <select name="killer_id" required>
+            {% for player in players %}
+                {% if player.id != current_user.id %}  {# Don't let the user select themselves #}
+                    <option value="{{ player.id }}">{{ player.username }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+
+
     <a href="{{ url_for('change_password') }}">Change Password</a>
     <a href="{{ url_for('logout') }}">Logout</a>
 {% endblock %}

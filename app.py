@@ -51,7 +51,7 @@ def load_user(user_id):
 @app.route('/')
 def home():
     if current_user.is_authenticated:
-        redirect(url_for("dashboard"))
+        return redirect(url_for("dashboard"))
     return render_template('index.html')
 
 
@@ -147,7 +147,7 @@ def reset_password(user_id):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        redirect(url_for("dashboard"))
+        return redirect(url_for("dashboard"))
 
     if request.method == 'POST':
         username = request.form['username']
@@ -214,6 +214,42 @@ def end_game():
 
     flash("Game has been ended. All targets cleared.", "warning")
     return redirect(url_for('admin'))
+
+@app.route('/report_death', methods=['POST'])
+@login_required
+def report_death():
+    killer_id = request.form.get('killer_id')
+    victim = current_user  # The logged-in user is reporting their own death
+
+    # Ensure the killer is a valid player
+    killer = User.query.get(killer_id)
+    if not killer:
+        flash("Invalid killer selection.", "danger")
+        return redirect(url_for('lock_screen'))
+
+    # Check if the victim was part of the game
+    target_entry = Target.query.filter_by(hunter_id=victim.id).first()
+    if not target_entry:
+        flash("You are not in an active game!", "warning")
+        return redirect(url_for('lock_screen'))
+
+    # Transfer the victim's target to the killer
+    victim_target = target_entry.target_id
+    if victim_target:
+        new_target = Target(hunter_id=killer.id, target_id=victim_target)
+        db.session.add(new_target)
+
+    # Update scores and remove the victim
+    killer.kills += 1
+    victim.deaths += 1
+
+    # Remove the victim from the game
+    Target.query.filter_by(hunter_id=victim.id).delete()
+    Target.query.filter_by(target_id=victim.id).delete()
+
+    db.session.commit()
+    flash("Your death has been reported!", "success")
+    return redirect(url_for('dashboard'))
 
 
 if __name__ == '__main__':
