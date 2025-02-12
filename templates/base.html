@@ -15,6 +15,7 @@
             <a href="{{ url_for('logout') }}"><button>Logout</button></a>
             {% else %}
             <p>You are not logged in</p>
+            <a href="{{ url_for('login') }}"><button>Login</button></a>
         {% endif %}
         </nav>
 
