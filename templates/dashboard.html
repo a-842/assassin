@@ -8,8 +8,11 @@
     {% if target %}
         <p>Your target is: {{ target }}</p>
     {% else %}
-        <p>You don't have a target yet.</p>
+        <p>You don't have a target.</p>
     {% endif %}
+
+    <a href="{{ url_for('leaderboard') }}" class="btn btn-primary">View Leaderboard</a>
+
 
     <form action="{{ url_for('report_death') }}" method="POST">
         <h2>Report Your Death</h2>

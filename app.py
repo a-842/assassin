@@ -252,6 +252,13 @@ def report_death():
     flash("Your death has been reported!", "success")
     return redirect(url_for('dashboard'))
 
+@app.route('/leaderboard')
+@login_required
+def leaderboard():
+    players = User.query.order_by(User.score.desc()).all()  # Sort by score (highest first)
+    return render_template('leaderboard.html', players=players)
+
+
 
 if __name__ == '__main__':
     with app.app_context():

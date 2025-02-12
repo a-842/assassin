@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Leaderboard{% endblock %}
+
+{% block content %}
+    <h1>Leaderboard</h1>
+    <table border="1">
+        <tr>
+            <th>Rank</th>
+            <th>Username</th>
+            <th>Kills</th>
+            <th>Deaths</th>
+            <th>Score</th>
+        </tr>
+        {% for player in players %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ player.username }}</td>
+            <td>{{ player.kills }}</td>
+            <td>{{ player.deaths }}</td>
+            <td>{{ player.score }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+{% endblock %}
