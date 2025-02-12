@@ -164,6 +164,34 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+# Admin panel to start the game
+@app.route('/admin/make_game', methods=['POST'])
+@login_required
+def make_game():
+    if not current_user.is_admin:
+        return "Access Denied", 403
+
+    # Get all non-admin users
+    players = User.query.filter_by(is_admin=False).all()
+
+    # Assign targets in a circular manner (ring)
+    for i in range(len(players)):
+        hunter = players[i]
+        target = players[(i + 1) % len(players)]  # Wrap around to create a ring
+        # Check if target already exists
+        existing_target = Target.query.filter_by(hunter_id=hunter.id).first()
+        if existing_target:
+            db.session.delete(existing_target)  # Remove existing target assignment if any
+        # Create a new Target record
+        new_target = Target(hunter_id=hunter.id, target_id=target.id)
+        db.session.add(new_target)
+    
+    db.session.commit()
+    flash('Game started and targets assigned!', 'success')
+    return redirect(url_for('admin'))
+
+
+
 
 if __name__ == '__main__':
     with app.app_context():
