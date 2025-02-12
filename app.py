@@ -50,6 +50,8 @@ def load_user(user_id):
 
 @app.route('/')
 def home():
+    if current_user.is_autheticated:
+        redirect(url_for("dashboard"))
     return render_template('index.html')
 
 
@@ -144,6 +146,9 @@ def reset_password(user_id):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_autheticated:
+        redirect(url_for("dashboard"))
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
