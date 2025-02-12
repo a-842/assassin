@@ -63,7 +63,8 @@ def dashboard():
         target = Target.query.filter_by(hunter_id=current_user.id).first()
         if target:
             user_target = target.target.username  # Get the target's username
-    return render_template('dashboard.html', username=current_user.username, target=user_target)
+    players = User.query.filter(User.id != current_user.id).all()
+    return render_template('dashboard.html', username=current_user.username, target=user_target, players=players)
 
 
 # Route for users to change their own password
