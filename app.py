@@ -41,7 +41,7 @@ class Target(db.Model):
 
     __table_args__ = (db.UniqueConstraint('hunter_id', 'target_id'),)
 
-@app.route('ads.txt')
+@app.route('/ads.txt')
 def ads():
     return render_template('ads.txt')
 
