@@ -225,13 +225,13 @@ def report_death():
     killer = User.query.get(killer_id)
     if not killer:
         flash("Invalid killer selection.", "danger")
-        return redirect(url_for('lock_screen'))
+        return redirect(url_for('dashboard'))
 
     # Check if the victim was part of the game
     target_entry = Target.query.filter_by(hunter_id=victim.id).first()
     if not target_entry:
         flash("You are not in an active game!", "warning")
-        return redirect(url_for('lock_screen'))
+        return redirect(url_for('dashboard'))
 
     # Transfer the victim's target to the killer
     victim_target = target_entry.target_id
