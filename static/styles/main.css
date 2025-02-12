@@ -1,7 +1,7 @@
 /* Reset default margins and paddings */
 * {
     margin: 0;
-    padding: 0;
+    padding: 10px;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
@@ -11,12 +11,24 @@ nav {
     width: 100%;
     background: #333;
     color: white;
-    padding: 15px 0;
-    text-align: center;
+    padding: 15px;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+nav ul li {
+    display: inline;
 }
 
 /* Page content container */
@@ -58,9 +70,6 @@ table {
 table, th, td {
     border: 2px solid black;
     text-align: left;
-}
-
-th, td {
     padding: 10px;
     font-weight: bold;
 }
