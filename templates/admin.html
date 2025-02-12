@@ -59,6 +59,9 @@
     <form action="{{ url_for('make_game') }}" method="POST">
         <button type="submit" class="btn btn-primary">Start Game</button>
     </form>
+    <form action="{{ url_for('end_game') }}" method="POST">
+        <button type="submit" class="btn btn-danger">End Game</button>
+    </form>
 
     <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
     <a href="{{ url_for('change_password') }}">Change Password</a>

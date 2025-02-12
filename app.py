@@ -196,6 +196,18 @@ def make_game():
     return redirect(url_for('admin'))
 
 
+@app.route('/admin/end_game', methods=['POST'])
+@login_required
+def end_game():
+    if not current_user.is_admin:
+        return "Access Denied", 403
+
+    # Clear all targets
+    Target.query.delete()
+    db.session.commit()
+
+    flash("Game has been ended. All targets cleared.", "warning")
+    return redirect(url_for('admin'))
 
 
 if __name__ == '__main__':
