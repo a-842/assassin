@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from random import shuffle
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'ainsworth is good'
@@ -178,7 +179,7 @@ def make_game():
 
     # Get all non-admin users
     players = User.query.filter_by(is_admin=False).all()
-
+    shuffle(players)
     # Assign targets in a circular manner (ring)
     for i in range(len(players)):
         hunter = players[i]
