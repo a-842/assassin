@@ -25,7 +25,6 @@ nav {
     margin: 100px auto; /* Centers the box and adds space from the navbar */
     background: white;
     padding: 20px;
-    border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -53,58 +52,58 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    border: 2px solid black;
 }
 
 table, th, td {
-    border: 1px solid #ddd;
+    border: 2px solid black;
     text-align: left;
 }
 
 th, td {
     padding: 10px;
+    font-weight: bold;
 }
 
 th {
     background: #444;
     color: white;
+    text-transform: uppercase;
 }
 
 tr:nth-child(even) {
-    background: #f9f9f9;
+    background: #e0e0e0;
 }
 
 /* Form elements */
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
     margin-top: 20px;
 }
 
 label {
     font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
 }
 
 input, select {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 2px solid black;
     font-size: 1em;
 }
 
 /* Button */
 button {
     padding: 10px 15px;
-    background: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
+    background: orange;
+    color: black;
+    border: 2px solid black;
     font-size: 1em;
     cursor: pointer;
     transition: background 0.3s;
 }
 
 button:hover {
-    background: #0056b3;
+    background: darkorange;
 }
