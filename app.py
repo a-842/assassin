@@ -279,4 +279,4 @@ if __name__ == '__main__':
             db.session.commit()
             print("Admin account created (username: admin, password: adminpass)")
 
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0", port="5001")
