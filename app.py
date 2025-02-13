@@ -43,11 +43,11 @@ class Target(db.Model):
     
 ###############
 ## Make this accessable for my web proxy, you can remove or replace these values
-def custom_url_for(endpoint, **values):
-    url = url_for(endpoint, **values)
-    return url.replace("http://acoult.art:4999", "http://acoult.art/assassin")
-
-app.jinja_env.globals['url_for'] = custom_url_for
+#def custom_url_for(endpoint, **values):
+#    url = url_for(endpoint, **values)
+#    return url.replace("http://acoult.art:4999", "http://acoult.art/assassin")
+#
+#app.jinja_env.globals['url_for'] = custom_url_for
 #############
 
 @app.route('/ads.txt')
@@ -288,4 +288,4 @@ if __name__ == '__main__':
             db.session.commit()
             print("Admin account created (username: admin, password: adminpass)")
 
-    app.run(debug=True, host="0.0.0.0", port="5001")
+    app.run(debug=True, host="0.0.0.0", port="4999")
