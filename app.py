@@ -40,6 +40,15 @@ class Target(db.Model):
     target = db.relationship('User', back_populates='hunters', foreign_keys=[target_id])
 
     __table_args__ = (db.UniqueConstraint('hunter_id', 'target_id'),)
+    
+###############
+## Make this accessable for my web proxy, you can remove or replace these values
+def custom_url_for(endpoint, **values):
+    url = url_for(endpoint, **values)
+    return url.replace("http://acoult.art:4999", "http://acoult.art/assassin")
+
+app.jinja_env.globals['url_for'] = custom_url_for
+#############
 
 @app.route('/ads.txt')
 def ads():
